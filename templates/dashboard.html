@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <div id="clock"></div>
+
+        <button onclick="toggleDarkMode()">
+            Dark Mode
+        </button>
+
+        <a href="/logout" class="logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+    <h1>Task Manager</h1>
+
+    <input type="text"
+    id="searchInput"
+    onkeyup="searchTasks()"
+    placeholder="Search Tasks">
+
+    <form method="POST"
+    onsubmit="return validateTask()">
+
+        <input type="text"
+        id="taskInput"
+        name="task"
+        placeholder="Enter Task"
+        required>
+
+        <select name="status">
+
+            <option value="Todo">Todo</option>
+
+            <option value="In Progress">
+                In Progress
+            </option>
+
+            <option value="Done">
+                Done
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Add Task
+        </button>
+
+    </form>
+
+    <div class="task-list">
+
+        {% for task in tasks %}
+
+        <div class="task-card">
+
+            <h3>{{ task[1] }}</h3>
+
+            <p>Status: {{ task[2] }}</p>
+
+            <div class="buttons">
+
+                <a href="/update/{{ task[0] }}/Todo">
+                    Todo
+                </a>
+
+                <a href="/update/{{ task[0] }}/In Progress">
+                    In Progress
+                </a>
+
+                <a href="/update/{{ task[0] }}/Done">
+                    Done
+                </a>
+
+                <a href="/delete/{{ task[0] }}"
+                onclick="return confirmDelete()">
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
